@@ -4,7 +4,7 @@ using Leap;
 
 public class myAimScript3 : MonoBehaviour {
 
-	public HandController controller;
+	private HandController controller;
 	public GameObject projectile;
 	private Leap.Vector fingerTipPos;
 	private Leap.Vector thumbTipPos;
@@ -21,6 +21,7 @@ public class myAimScript3 : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		controller = GameObject.FindGameObjectWithTag ("GameController").GetComponent<HandController>();
 		shooting = false;
 		pos = new Vector3 (3f, 3f, 3f);
 		thumbPos = prevThumbPos = new Vector3 (0f, 0f, 0f);
@@ -37,7 +38,7 @@ public class myAimScript3 : MonoBehaviour {
 	
 		//convert to our world coordinates
 		pos = controller.transform.TransformPoint (fingerTipPos.ToUnityScaled (false));
-		print (pos);
+
 		thumbPos = controller.transform.TransformPoint (thumbTipPos.ToUnityScaled (false));
 
 		//shoot projectile
