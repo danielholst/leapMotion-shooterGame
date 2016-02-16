@@ -34,10 +34,10 @@ public class myAimScript3 : MonoBehaviour {
 
 		//get thumb tip position
 		thumbTipPos = controller.GetFrame().Hands[0].Fingers.Leftmost.TipPosition;
-
+	
 		//convert to our world coordinates
 		pos = controller.transform.TransformPoint (fingerTipPos.ToUnityScaled (false));
-//		print (pos);
+		print (pos);
 		thumbPos = controller.transform.TransformPoint (thumbTipPos.ToUnityScaled (false));
 
 		//shoot projectile
