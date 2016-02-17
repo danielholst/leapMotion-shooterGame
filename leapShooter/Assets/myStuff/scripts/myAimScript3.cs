@@ -15,12 +15,14 @@ public class myAimScript3 : MonoBehaviour {
 	private bool shooting;
 	private Vector3 thumbPos;
 	private Vector3 prevThumbPos;
+	private float projectileTimer;
 
 	//private Vector3 palm
 
 	// Use this for initialization
 	void Start () {
 
+		projectileTimer = 0f;
 		controller = GameObject.FindGameObjectWithTag ("GameController").GetComponent<HandController>();
 		shooting = false;
 		pos = new Vector3 (3f, 3f, 3f);
@@ -38,7 +40,6 @@ public class myAimScript3 : MonoBehaviour {
 	
 		//convert to our world coordinates
 		pos = controller.transform.TransformPoint (fingerTipPos.ToUnityScaled (false));
-
 		thumbPos = controller.transform.TransformPoint (thumbTipPos.ToUnityScaled (false));
 
 		//shoot projectile
@@ -59,9 +60,12 @@ public class myAimScript3 : MonoBehaviour {
 		}
 
 		//destroy object when out of reach
-		if (instantiatedProjectile != null && instantiatedProjectile.transform.position.z > 20) {
+		if (instantiatedProjectile != null && projectileTimer < 0.5f) {
+			projectileTimer += Time.deltaTime;
+		} else {
 			Destroy (instantiatedProjectile);
 			shooting = false;
+			projectileTimer = 0f;
 		}
 
 		prevThumbPos = thumbPos;
