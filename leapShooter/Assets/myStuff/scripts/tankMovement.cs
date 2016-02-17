@@ -28,7 +28,6 @@ public class tankMovement : MonoBehaviour {
 		handleTankMovement (palmPos);
 		handleTankRotation (palmRot);
 
-		print (palmRot);
 	}
 
 	void handleTankMovement(Vector3 pos) {
