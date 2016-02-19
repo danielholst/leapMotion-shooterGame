@@ -24,7 +24,8 @@ public class playerRotationScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		//get normal of hand
 		leapRot = controller.GetFrame ().Hands [0].PalmNormal;
 		rot = leapRot.ToUnity(false);
 			
@@ -33,9 +34,6 @@ public class playerRotationScript : MonoBehaviour {
 		if (rot.x > 0.3f)
 			camera.transform.Rotate( rotation * rot.x);
 
-		//print(controller.transform.TransformPoint (controller.rightPhysicsModel.GetPalmRotation ().ToUnity(false)));
-		//print(hand.GetPalmRotation ()); 
-		//print(controller.GetComponent<RiggedHand>().GetPalmRotation());
 		print (leapRot.ToUnity(false));
 	}
 }

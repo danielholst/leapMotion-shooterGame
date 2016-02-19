@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using enemySpace;
 
 public class shootScript : MonoBehaviour {
-	
+
 	private HandController controller;
 	public GameObject projectile;
 	private GameObject instantiatedProjectile;
