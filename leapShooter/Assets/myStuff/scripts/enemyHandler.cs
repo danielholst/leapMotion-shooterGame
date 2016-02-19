@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using enemySpace;
+using System.Collections.Generic;
 
 public class enemyHandler : MonoBehaviour {
 
 	private GameObject player;
 	public GameObject enemyTank;
 	private GameObject instantiatedTank;
-	private ArrayList enemies = new ArrayList (); 
+	private List<Enemy> enemies = new List<Enemy> (); 
 	private float timer;
 	private int enemiesSpawned;
 
@@ -29,6 +30,21 @@ public class enemyHandler : MonoBehaviour {
 			spawnNewEnemy ();
 		}
 
+		for (int i = 0; i < enemies.Count; i++) {
+
+			//move enemy projectiles
+
+			//if enemy is spawned
+			if (enemies[i].getEnemyObject () != null) {
+
+				//Move enemies
+				enemies[i].movement();
+			}
+		}
+
+
+
+
 	}
 
 	public float getDistanceToPlayer(Vector3 playerPos) {
@@ -40,7 +56,7 @@ public class enemyHandler : MonoBehaviour {
 	}
 
  	void spawnNewEnemy() {
-		print ("Enemy spawned");
+		
 		GameObject enemyObject;
 		Vector3 pos = new Vector3 (120f, 0f, 50);
 

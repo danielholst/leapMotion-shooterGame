@@ -6,20 +6,20 @@ namespace enemySpace
 	//class for enemy objects
 	public class Enemy
 	{
-		private GameObject typeOfEnemy;
+		private GameObject enemyObj;
 		private int healthOfEnemy;
 		private bool enemySpawned;
 
 		public Enemy()
 		{
-			typeOfEnemy = null;
+			enemyObj = null;
 			healthOfEnemy = 0;
 			enemySpawned = false;
 		}
 
 		public Enemy(GameObject type, int health)
 		{
-			typeOfEnemy = type;
+			enemyObj = type;
 			healthOfEnemy = health;
 			enemySpawned = true;
 		}
@@ -27,12 +27,13 @@ namespace enemySpace
 		//movement for the enemy
 		public void movement()
 		{
-			
+			//print ("mov");
+			enemyObj.transform.position += new Vector3 (0.5f,0f,0.5f);
 		}
 			
 		public GameObject getEnemyObject()
 		{
-			return typeOfEnemy;
+			return enemyObj;
 		}
 
 		public int getEnemyHealth()

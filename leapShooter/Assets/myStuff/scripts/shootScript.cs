@@ -25,9 +25,9 @@ public class shootScript : MonoBehaviour {
 			print ("shoot");
 			shooting = true;
 			shootDir = transform.forward;
-			shootPos = new Vector3 (transform.position.x - 0.8f * shootDir.x,
-									transform.position.y + 4.7f,
-									transform.position.z + 13.7f * shootDir.z);
+			shootPos = new Vector3 (transform.position.x + transform.forward.x * 15f ,
+									transform.position.y + 4f,
+									transform.position.z +  transform.forward.z * 15f) ;
 			
 			//instantate new projectile
 			instantiatedProjectile = Instantiate (projectile, shootPos, new Quaternion(0f,0f,0f,0f) ) as GameObject;
@@ -36,7 +36,7 @@ public class shootScript : MonoBehaviour {
 
 		//to move projectile
 		if (shooting) {
-			instantiatedProjectile.transform.position += shootDir * 5f;
+			instantiatedProjectile.transform.position += shootDir * 8f;
 		}
 	}
 
