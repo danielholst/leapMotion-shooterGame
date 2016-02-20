@@ -36,7 +36,7 @@ public class shootScript : MonoBehaviour {
 
 		//to move projectile
 		if (shooting) {
-			instantiatedProjectile.transform.position += shootDir * 8f;
+			instantiatedProjectile.transform.position += shootDir * 6f;
 		}
 	}
 

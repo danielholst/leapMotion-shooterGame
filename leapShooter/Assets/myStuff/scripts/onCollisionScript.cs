@@ -3,20 +3,30 @@ using System.Collections;
 
 public class onCollisionScript : MonoBehaviour {
 
-	private GameObject aim;
+	public GameObject explosion1;
+	public GameObject explosion2;
+	private GameObject player;
+	private GameObject exp;
 	// Use this for initialization
 	void Start () {
 
-		aim = GameObject.FindGameObjectWithTag ("aim");
-	
+		player = GameObject.FindGameObjectWithTag ("Tank");
 	}
 	
 	void OnCollisionEnter (Collision other) {
-		if(other.gameObject.tag == "hitBox")
+		if(other.gameObject.tag == "Ground")
 		{
-			Destroy(other.gameObject);
+			//player.GetComponent<shootScript> ().setShooting (false);
+			exp = Instantiate (explosion1, transform.position, transform.rotation) as GameObject;
+			//Destroy (gameObject);
+		}
+
+		if(other.gameObject.tag == "Enemy")
+		{
+			player.GetComponent<shootScript> ().setShooting (false);
+			exp = Instantiate (explosion2, transform.position, transform.rotation) as GameObject;
 			Destroy (gameObject);
-			aim.GetComponent<myAimScript3>().setShooting (false);
+			Destroy (other.gameObject);
 		}
 	}
 }

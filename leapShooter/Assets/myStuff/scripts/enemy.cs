@@ -28,7 +28,7 @@ namespace enemySpace
 		public void movement()
 		{
 			//print ("mov");
-			enemyObj.transform.position += new Vector3 (0.5f,0f,0.5f);
+			enemyObj.transform.position += new Vector3 (0.3f,0f,0.0f);
 		}
 			
 		public GameObject getEnemyObject()
