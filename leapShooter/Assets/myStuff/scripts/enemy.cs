@@ -23,23 +23,23 @@ namespace enemySpace
 			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
 		}
 
-		public Enemy(GameObject type, int health)
+		public Enemy(GameObject type, int health, GameObject exp)
 		{
 			enemyObj = type;
 			healthOfEnemy = health;
 			enemySpawned = true;
 			proj = GameObject.FindGameObjectWithTag ("EnemyProjectile");
 			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
-			projectile = new enemyProjectile (proj);
+			projectile = new enemyProjectile (proj, exp);
 		}
 
 		public void handleEnemy(Vector3 playerPos) {
 
 			//Move enemies
-			movement();
+			//movement();
 
 			//handle projectile
-			projectile.handleProjectile (enemyObj.transform.position, playerPos); 
+			projectile.handleProjectile (enemyObj.transform, playerPos); 
 		}
 
 
@@ -98,23 +98,27 @@ namespace enemySpace
 		private bool isShot;
 		private Vector3 shotDirection;
 		private float timer;
+		private GameObject explosion;
+		private GameObject instantiatedExplosion;
 
 		public enemyProjectile()
 		{
 			projectile = null;
 			isShot = false;
 			timer = 0f;
+			explosion = null;
 		}
 
 
-		public enemyProjectile(GameObject proj)
+		public enemyProjectile(GameObject proj, GameObject exp)
 		{
 			projectile = proj;
 			isShot = false;
 			timer = 0f;
+			explosion = exp;
 		}
 
-		public void handleProjectile(Vector3 pos, Vector3 playerPos) {
+		public void handleProjectile(Transform trans, Vector3 playerPos) {
 
 			if (projectileInstance == null && getIsShot() == true)
 				setIsShot (false);
@@ -132,32 +136,39 @@ namespace enemySpace
 				moveProjectile ();
 
 			if (!getIsShot ())
-				shoot (pos, playerPos);
+				shoot (trans, playerPos);
 
 		}
 
 		// create a projectile from the enemy flying towards the player
-		public void shoot(Vector3 pos, Vector3 playerPos)
+		public void shoot(Transform enemyTrans, Vector3 playerPos)
 		{
+			MonoBehaviour.print ("enemy shoots");
+			//adjust spawn position 
+			Vector3 spawnPos = new Vector3 (enemyTrans.position.x + enemyTrans.forward.x * 20f ,
+											enemyTrans.position.y + 4f,
+											enemyTrans.position.z +  enemyTrans.forward.z * 20f);
+
+			//create explosion effect when shooting
+			instantiatedExplosion = GameObject.Instantiate(explosion, spawnPos, new Quaternion (0f, 0f, 0f, 0f)) as GameObject;
+
+			//create projectile
+			projectileInstance = GameObject.Instantiate(projectile, spawnPos, new Quaternion(0f,0f,0f,0f)) as GameObject;
+
 			//get direction from enemy towards player
-			Vector3 dir = new Vector3(  playerPos.x - pos.x,
-										playerPos.y - pos.y,
-										playerPos.z - pos.z);
-			projectileInstance = GameObject.Instantiate(projectile, pos, new Quaternion(0f,0f,0f,0f)) as GameObject;
-
-			shotDirection = dir;
-
+			shotDirection = new Vector3(    enemyTrans.forward.x,
+											0f,
+											enemyTrans.forward.z);
+			
 			//add small diff to shot
-			float diff = UnityEngine.Random.Range(-2, 2);
-			float diff2 = UnityEngine.Random.Range(-2, 2);
-			shotDirection.x += diff;
-			shotDirection.z += diff2;
+			//shotDirection.x += UnityEngine.Random.Range(-2, 2);;
+			//shotDirection.z += UnityEngine.Random.Range(-2, 2);;
 			setIsShot (true);
 		}
 
 		public void moveProjectile()
 		{
-			projectileInstance.transform.position += shotDirection * Time.deltaTime;
+			projectileInstance.transform.position += shotDirection * 2f;
 		}
 
 		public bool getIsShot()

@@ -7,6 +7,8 @@ public class enemyHandler : MonoBehaviour {
 
 	private GameObject player;
 	public GameObject enemyTank;
+	public GameObject explosion;
+	private GameObject exp;
 	private GameObject instantiatedTank;
 	private List<Enemy> enemies = new List<Enemy> (); 
 	private float timer;
@@ -53,6 +55,6 @@ public class enemyHandler : MonoBehaviour {
 		Vector3 pos = new Vector3 (120f, 0f, 50);
 
 		enemyObject = Instantiate (enemyTank, pos, new Quaternion (0f, 0f, 0f, 1f)) as GameObject;
-		enemies.Add(new Enemy (enemyObject, 1));
+		enemies.Add(new Enemy (enemyObject, 1, explosion));
 	}
 }
