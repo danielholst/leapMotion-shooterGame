@@ -30,6 +30,7 @@ public class enemyHandler : MonoBehaviour {
 		if (timer > 1 && enemiesSpawned == 0) {
 			enemiesSpawned++;
 			spawnNewEnemy ();
+
 		}
 
 		for (int i = 0; i < enemies.Count; i++) {
@@ -47,6 +48,7 @@ public class enemyHandler : MonoBehaviour {
 		GameObject enemyObject;
 		//randomize start pos TODO
 		Vector3 pos = getRandomPos();
+		print (pos);
 
 		enemyObject = Instantiate (enemyTank, pos, new Quaternion (0f, 0f, 0f, 1f)) as GameObject;
 		enemies.Add(new Enemy (enemyObject, 1, explosion));
@@ -56,11 +58,11 @@ public class enemyHandler : MonoBehaviour {
 	Vector3 getRandomPos() {
 
 		Vector3 pos = new Vector3 (-10f, 0f, 0f);
-		while (getDistanceToPlayer (pos) < 100f) {
+		do {
 			pos.x = UnityEngine.Random.Range (-200f, 200f);
 			pos.y = 0f;
 			pos.z = UnityEngine.Random.Range (-200f, 200f);
-		}
+		} while (getDistanceToPlayer (pos) < 100f);
 
 		return pos;
 	}

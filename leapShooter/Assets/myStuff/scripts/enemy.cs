@@ -70,7 +70,7 @@ namespace enemySpace
 			enemyObj.transform.LookAt(playerTrans);
 
 			if (getDistanceToPlayer () > 120f)
-				enemyObj.transform.position += enemyObj.transform.forward * 0.5f;
+				enemyObj.transform.position += enemyObj.transform.forward * 0.3f;
 			//enemyObj.transform.position += new Vector3 (0.3f,0f,0.0f);
 		}
 
@@ -137,10 +137,11 @@ namespace enemySpace
 
 		public void handleProjectile(Transform trans, Vector3 playerPos) {
 
+			//if projectile was destroyed set isShot = false
 			if (projectileInstance == null && getIsShot() == true)
 				setIsShot (false);
 
-
+			// timer for projectile life time
 			timer += Time.deltaTime;
 			if (timer >= 2f) {
 				timer = 0f;
@@ -152,6 +153,7 @@ namespace enemySpace
 			if (getIsShot ())
 				moveProjectile ();
 
+			//if not shot, shoot!
 			if (!getIsShot ())
 				shoot (trans, playerPos);
 
@@ -172,14 +174,12 @@ namespace enemySpace
 			//create projectile
 			projectileInstance = GameObject.Instantiate(projectile, spawnPos, new Quaternion(0f,0f,0f,0f)) as GameObject;
 
-			//get direction from enemy towards player
-			shotDirection = new Vector3(    enemyTrans.forward.x,
+			//get direction from enemy towards player with small diff
+			shotDirection = new Vector3(    enemyTrans.forward.x + (UnityEngine.Random.Range (-1f, 1f) / 10f),
 											0f,
-											enemyTrans.forward.z);
+											enemyTrans.forward.z +(UnityEngine.Random.Range (-1f, 1f) / 10f));
 			
-			//add small diff to shot
-			//shotDirection.x += UnityEngine.Random.Range(-2, 2);;
-			//shotDirection.z += UnityEngine.Random.Range(-2, 2);;
+
 			setIsShot (true);
 		}
 
@@ -193,13 +193,13 @@ namespace enemySpace
 			return isShot;
 		}
 
-		public void destroyInstantiated() {
-			GameObject.Destroy (projectileInstance);
-		}
-
 		public void setIsShot(bool fired)
 		{
 			isShot = fired;
+		}
+
+		public void destroyInstantiated() {
+			GameObject.Destroy (projectileInstance);
 		}
 
 		public GameObject getEnemyProjectile()
