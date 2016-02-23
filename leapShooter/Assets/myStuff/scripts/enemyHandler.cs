@@ -37,15 +37,9 @@ public class enemyHandler : MonoBehaviour {
 			//if enemy is spawned
 			if (enemies [i].getEnemyObject () != null) {
 				enemies [i].handleEnemy (player.transform.position);
-			}
+			} else if (enemies [i].getEnemyObject () == null && enemies [i].getProjectile () != null)
+				enemies [i].destroyProjectile ();
 		}
-	}
-
-	public float getDistanceToPlayer(Vector3 playerPos) {
-
-		return Mathf.Sqrt(Mathf.Abs(  Mathf.Pow(transform.position.x - playerPos.x,2)
-									+ Mathf.Pow(transform.position.y - playerPos.y,2)
-									+ Mathf.Pow(transform.position.z - playerPos.z,2)));	
 	}
 
  	void spawnNewEnemy() {

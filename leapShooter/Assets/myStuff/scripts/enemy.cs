@@ -12,6 +12,7 @@ namespace enemySpace
 		private bool enemySpawned;
 		private enemyProjectile projectile;
 		private GameObject proj;
+		private Transform playerTrans;
 
 		public Enemy()
 		{
@@ -20,6 +21,7 @@ namespace enemySpace
 			enemySpawned = false;
 			projectile = new enemyProjectile ();
 			proj = GameObject.FindGameObjectWithTag ("EnemyProjectile");
+			playerTrans = GameObject.FindGameObjectWithTag ("Tank").transform;
 			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
 		}
 
@@ -31,12 +33,13 @@ namespace enemySpace
 			proj = GameObject.FindGameObjectWithTag ("EnemyProjectile");
 			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
 			projectile = new enemyProjectile (proj, exp);
+			playerTrans = GameObject.FindGameObjectWithTag ("Tank").transform;
 		}
 
 		public void handleEnemy(Vector3 playerPos) {
 
 			//Move enemies
-			//movement();
+			movement();
 
 			//handle projectile
 			projectile.handleProjectile (enemyObj.transform, playerPos); 
@@ -56,14 +59,28 @@ namespace enemySpace
 		public enemyProjectile getProjectile() {
 			return projectile;
 		}
+		public void destroyProjectile() {
+			projectile.destroyInstantiated ();
+		}
 			
 		//movement for the enemy
 		public void movement()
 		{
-			//print ("mov");
-			enemyObj.transform.position += new Vector3 (0.3f,0f,0.0f);
+			//first fix rotation towards player then move towards player if to far away
+			enemyObj.transform.LookAt(playerTrans);
+
+			if (getDistanceToPlayer () > 120f)
+				enemyObj.transform.position += enemyObj.transform.forward * 0.5f;
+			//enemyObj.transform.position += new Vector3 (0.3f,0f,0.0f);
 		}
-			
+
+		float getDistanceToPlayer() {
+
+			return Mathf.Sqrt(Mathf.Abs(  Mathf.Pow(enemyObj.transform.position.x - playerTrans.position.x,2)
+										+ Mathf.Pow(enemyObj.transform.position.y - playerTrans.position.y,2)
+										+ Mathf.Pow(enemyObj.transform.position.z - playerTrans.position.z,2)));	
+		}
+
 		public GameObject getEnemyObject()
 		{
 			return enemyObj;
@@ -125,7 +142,7 @@ namespace enemySpace
 
 
 			timer += Time.deltaTime;
-			if (timer >= 1f) {
+			if (timer >= 2f) {
 				timer = 0f;
 				GameObject.Destroy (projectileInstance);
 				setIsShot (false);
@@ -174,6 +191,10 @@ namespace enemySpace
 		public bool getIsShot()
 		{
 			return isShot;
+		}
+
+		public void destroyInstantiated() {
+			GameObject.Destroy (projectileInstance);
 		}
 
 		public void setIsShot(bool fired)
