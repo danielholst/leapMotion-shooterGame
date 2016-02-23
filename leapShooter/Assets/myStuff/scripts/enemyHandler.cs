@@ -46,9 +46,29 @@ public class enemyHandler : MonoBehaviour {
 		
 		GameObject enemyObject;
 		//randomize start pos TODO
-		Vector3 pos = new Vector3 (120f, 0f, 50);
+		Vector3 pos = getRandomPos();
 
 		enemyObject = Instantiate (enemyTank, pos, new Quaternion (0f, 0f, 0f, 1f)) as GameObject;
 		enemies.Add(new Enemy (enemyObject, 1, explosion));
+	}
+
+	//get random position on the game field without spawning close to player
+	Vector3 getRandomPos() {
+
+		Vector3 pos = new Vector3 (-10f, 0f, 0f);
+		while (getDistanceToPlayer (pos) < 100f) {
+			pos.x = UnityEngine.Random.Range (-200f, 200f);
+			pos.y = 0f;
+			pos.z = UnityEngine.Random.Range (-200f, 200f);
+		}
+
+		return pos;
+	}
+
+	float getDistanceToPlayer(Vector3 pos) {
+
+		return Mathf.Sqrt(Mathf.Abs(  Mathf.Pow(pos.x - player.transform.position.x,2)
+									+ Mathf.Pow(pos.y - player.transform.position.y,2)
+									+ Mathf.Pow(pos.z - player.transform.position.z,2)));	
 	}
 }
