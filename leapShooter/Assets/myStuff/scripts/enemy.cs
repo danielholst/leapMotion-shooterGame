@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine; 
+using System.Linq;
 
 namespace enemySpace
 {
@@ -9,12 +10,17 @@ namespace enemySpace
 		private GameObject enemyObj;
 		private int healthOfEnemy;
 		private bool enemySpawned;
+		private enemyProjectile projectile;
+		private GameObject proj;
 
 		public Enemy()
 		{
 			enemyObj = null;
 			healthOfEnemy = 0;
 			enemySpawned = false;
+			projectile = new enemyProjectile ();
+			proj = GameObject.FindGameObjectWithTag ("EnemyProjectile");
+			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
 		}
 
 		public Enemy(GameObject type, int health)
@@ -22,6 +28,33 @@ namespace enemySpace
 			enemyObj = type;
 			healthOfEnemy = health;
 			enemySpawned = true;
+			proj = GameObject.FindGameObjectWithTag ("EnemyProjectile");
+			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
+			projectile = new enemyProjectile (proj);
+		}
+
+		public void handleEnemy(Vector3 playerPos) {
+
+			//Move enemies
+			movement();
+
+			//handle projectile
+			projectile.handleProjectile (enemyObj.transform.position, playerPos); 
+		}
+
+
+		//shoot function for enemy
+		public void shoot(Vector3 playerPos)
+		{
+			if (proj == null)
+				MonoBehaviour.print ("hej");
+
+			//projectile.shoot (enemyObj.transform.position, dir);
+
+		}
+
+		public enemyProjectile getProjectile() {
+			return projectile;
 		}
 			
 		//movement for the enemy
@@ -61,13 +94,16 @@ namespace enemySpace
 	public class enemyProjectile
 	{
 		private GameObject projectile;
+		private GameObject projectileInstance;
 		private bool isShot;
 		private Vector3 shotDirection;
+		private float timer;
 
 		public enemyProjectile()
 		{
 			projectile = null;
 			isShot = false;
+			timer = 0f;
 		}
 
 
@@ -75,36 +111,53 @@ namespace enemySpace
 		{
 			projectile = proj;
 			isShot = false;
+			timer = 0f;
+		}
+
+		public void handleProjectile(Vector3 pos, Vector3 playerPos) {
+
+			if (projectileInstance == null && getIsShot() == true)
+				setIsShot (false);
+
+
+			timer += Time.deltaTime;
+			if (timer >= 1f) {
+				timer = 0f;
+				GameObject.Destroy (projectileInstance);
+				setIsShot (false);
+			}
+
+			//move enemy projectiles
+			if (getIsShot ())
+				moveProjectile ();
+
+			if (!getIsShot ())
+				shoot (pos, playerPos);
+
 		}
 
 		// create a projectile from the enemy flying towards the player
-		public void shoot(GameObject enemy, Vector3 playerPos, GameObject enemyProjectile)
+		public void shoot(Vector3 pos, Vector3 playerPos)
 		{
-			Vector3 projectileSpawnPos = new Vector3 (enemy.transform.position.x, enemy.transform.position.y - 0.1f, 1f);
-			projectile = GameObject.Instantiate(enemyProjectile, projectileSpawnPos, enemy.transform.rotation) as GameObject;
+			//get direction from enemy towards player
+			Vector3 dir = new Vector3(  playerPos.x - pos.x,
+										playerPos.y - pos.y,
+										playerPos.z - pos.z);
+			projectileInstance = GameObject.Instantiate(projectile, pos, new Quaternion(0f,0f,0f,0f)) as GameObject;
 
-			//get vector towards player
-			shotDirection = new Vector3(playerPos.x - projectile.transform.position.x,
-				playerPos.y - projectile.transform.position.y,
-				1f);
-
-			shotDirection = 10 * shotDirection / shotDirection.magnitude;
+			shotDirection = dir;
 
 			//add small diff to shot
-			float diff = UnityEngine.Random.Range(-3, 3) / 10;
+			float diff = UnityEngine.Random.Range(-2, 2);
+			float diff2 = UnityEngine.Random.Range(-2, 2);
 			shotDirection.x += diff;
+			shotDirection.z += diff2;
 			setIsShot (true);
 		}
 
 		public void moveProjectile()
 		{
-			projectile.transform.position += shotDirection * Time.deltaTime;
-
-			if (projectile.transform.position.y < -6f)
-			{
-				GameObject.Destroy (projectile);
-				setIsShot(false);
-			}
+			projectileInstance.transform.position += shotDirection * Time.deltaTime;
 		}
 
 		public bool getIsShot()

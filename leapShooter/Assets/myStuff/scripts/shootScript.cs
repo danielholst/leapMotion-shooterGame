@@ -6,6 +6,8 @@ public class shootScript : MonoBehaviour {
 
 	private HandController controller;
 	public GameObject projectile;
+	public GameObject explosion;
+	private GameObject exp;
 	private GameObject instantiatedProjectile;
 	private bool shooting;
 	private Vector3 shootDir;
@@ -28,6 +30,8 @@ public class shootScript : MonoBehaviour {
 			shootPos = new Vector3 (transform.position.x + transform.forward.x * 15f ,
 									transform.position.y + 4f,
 									transform.position.z +  transform.forward.z * 15f) ;
+
+			exp = Instantiate (explosion, shootPos, new Quaternion (0f, 0f, 0f, 0f)) as GameObject;
 			
 			//instantate new projectile
 			instantiatedProjectile = Instantiate (projectile, shootPos, new Quaternion(0f,0f,0f,0f) ) as GameObject;
