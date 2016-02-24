@@ -27,7 +27,11 @@ public class enemyHandler : MonoBehaviour {
 
 		timer += Time.deltaTime;
 
-		if (timer > 1 && enemiesSpawned == 0) {
+		if ((timer > 1 && enemiesSpawned == 0) ||
+			(timer > 6 && enemiesSpawned == 1) ||
+			(timer > 10 && enemiesSpawned == 2) ||
+			(timer > 15 && enemiesSpawned == 3) ||
+			(timer > 25 && enemiesSpawned == 4 )) {
 			enemiesSpawned++;
 			spawnNewEnemy ();
 
@@ -46,7 +50,7 @@ public class enemyHandler : MonoBehaviour {
  	void spawnNewEnemy() {
 		
 		GameObject enemyObject;
-		//randomize start pos TODO
+
 		Vector3 pos = getRandomPos();
 		print (pos);
 
@@ -62,7 +66,7 @@ public class enemyHandler : MonoBehaviour {
 			pos.x = UnityEngine.Random.Range (-200f, 200f);
 			pos.y = 0f;
 			pos.z = UnityEngine.Random.Range (-200f, 200f);
-		} while (getDistanceToPlayer (pos) < 100f);
+		} while (getDistanceToPlayer (pos) < 130f);
 
 		return pos;
 	}
