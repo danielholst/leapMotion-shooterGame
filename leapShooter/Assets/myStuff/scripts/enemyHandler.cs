@@ -52,7 +52,7 @@ public class enemyHandler : MonoBehaviour {
 		GameObject enemyObject;
 
 		Vector3 pos = getRandomPos();
-		print (pos);
+
 
 		enemyObject = Instantiate (enemyTank, pos, new Quaternion (0f, 0f, 0f, 1f)) as GameObject;
 		enemies.Add(new Enemy (enemyObject, 1, explosion));

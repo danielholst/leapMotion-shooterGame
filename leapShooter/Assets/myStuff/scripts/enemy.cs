@@ -162,7 +162,6 @@ namespace enemySpace
 		// create a projectile from the enemy flying towards the player
 		public void shoot(Transform enemyTrans, Vector3 playerPos)
 		{
-			MonoBehaviour.print ("enemy shoots");
 			//adjust spawn position 
 			Vector3 spawnPos = new Vector3 (enemyTrans.position.x + enemyTrans.forward.x * 20f ,
 											enemyTrans.position.y + 4f,
