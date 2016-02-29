@@ -20,5 +20,8 @@ public class startText : MonoBehaviour {
 		text.color = color;
 		GUI.backgroundColor = Color.clear;
 
+		if (color.a < 0f)
+			Destroy (gameObject);
+
 	}
 }

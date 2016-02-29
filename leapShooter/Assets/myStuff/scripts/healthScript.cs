@@ -21,8 +21,8 @@ public class healthScript : MonoBehaviour {
 
 	public void decreaseHealth() {
 
-		print ("transform = " + transform.position + "  health = " + health);
-		transform.position = new Vector3 (transform.position.x - 20f, transform.position.y, transform.position.z);
+	//	print ("transform = " + transform.position + "  health = " + health);
+		transform.position = new Vector3 (transform.position.x - 10f, transform.position.y, transform.position.z);
 		health -= 10;
 	}
 }

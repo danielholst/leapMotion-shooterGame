@@ -9,6 +9,7 @@ public class tankMovement : MonoBehaviour {
 	private Vector3 palmPos;
 	private Vector3 palmRot;
 	private Vector3 rotation;
+	public AudioSource movSound;
 
 	// Use this for initialization
 	void Start () {
@@ -34,11 +35,15 @@ public class tankMovement : MonoBehaviour {
 
 		float speed = 0.5f;
 
-		if (pos.z > 0.05)
+		if (pos.z > 0.05) {
+			//movSound.Play ();
 			transform.position += transform.forward * speed;
+		} else if (pos.z < -0.05) {
+			//movSound.Play ();
 
-		if (pos.z < -0.05)
 			transform.position -= transform.forward * speed;
+		} 
+			//movSound.Pause ();
 	}
 
 	void handleTankRotation(Vector3 rot) {
