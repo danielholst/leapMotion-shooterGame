@@ -8,34 +8,31 @@ namespace enemySpace
 	public class Enemy
 	{
 		private GameObject enemyObj;
-		private int healthOfEnemy;
-		private bool enemySpawned;
 		private enemyProjectile projectile;
 		private GameObject proj;
 		private Transform playerTrans;
 
+		//enemy default constructor
 		public Enemy()
 		{
-			enemyObj = null;
-			healthOfEnemy = 0;
-			enemySpawned = false;
+			enemyObj = null;;
 			projectile = new enemyProjectile ();
 			proj = GameObject.FindGameObjectWithTag ("EnemyProjectile");
 			playerTrans = GameObject.FindGameObjectWithTag ("Tank").transform;
 			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
 		}
 
-		public Enemy(GameObject type, int health, GameObject exp)
+		//enemy constructor
+		public Enemy(GameObject type, GameObject exp)
 		{
 			enemyObj = type;
-			healthOfEnemy = health;
-			enemySpawned = true;
 			proj = GameObject.FindGameObjectWithTag ("EnemyProjectile");
 			//proj = Resources.FindObjectsOfTypeAll (typeof(GameObject)).Cast<GameObject> ().Where (g => g.tag == "EnemyProjectile");
 			projectile = new enemyProjectile (proj, exp);
 			playerTrans = GameObject.FindGameObjectWithTag ("Tank").transform;
 		}
 
+		//handles movement and projectiles for enemy
 		public void handleEnemy(Vector3 playerPos) {
 
 			//Move enemies
@@ -45,20 +42,12 @@ namespace enemySpace
 			projectile.handleProjectile (enemyObj.transform, playerPos); 
 		}
 
-
-		//shoot function for enemy
-		public void shoot(Vector3 playerPos)
-		{
-			if (proj == null)
-				MonoBehaviour.print ("hej");
-
-			//projectile.shoot (enemyObj.transform.position, dir);
-
-		}
-
+		//get projectile object
 		public enemyProjectile getProjectile() {
 			return projectile;
 		}
+
+		//destroy the created projectile
 		public void destroyProjectile() {
 			projectile.destroyInstantiated ();
 		}
@@ -74,6 +63,7 @@ namespace enemySpace
 			//enemyObj.transform.position += new Vector3 (0.3f,0f,0.0f);
 		}
 
+		// returns the distance to the player tank
 		float getDistanceToPlayer() {
 
 			return Mathf.Sqrt(Mathf.Abs(  Mathf.Pow(enemyObj.transform.position.x - playerTrans.position.x,2)
@@ -81,29 +71,10 @@ namespace enemySpace
 										+ Mathf.Pow(enemyObj.transform.position.z - playerTrans.position.z,2)));	
 		}
 
+		//returns enemy object
 		public GameObject getEnemyObject()
 		{
 			return enemyObj;
-		}
-
-		public int getEnemyHealth()
-		{
-			return healthOfEnemy;
-		}
-
-		public void decreaseEnemyHealth()
-		{
-			healthOfEnemy--;
-		}
-
-		public bool getSpawned()
-		{
-			return enemySpawned;
-		}
-
-		private void setSpawned(bool spawned)
-		{
-			enemySpawned = spawned;
 		}
 	}
 
@@ -118,6 +89,7 @@ namespace enemySpace
 		private GameObject explosion;
 		private GameObject instantiatedExplosion;
 
+		//Default constructor
 		public enemyProjectile()
 		{
 			projectile = null;
@@ -126,7 +98,7 @@ namespace enemySpace
 			explosion = null;
 		}
 
-
+		//constructor
 		public enemyProjectile(GameObject proj, GameObject exp)
 		{
 			projectile = proj;
@@ -135,6 +107,7 @@ namespace enemySpace
 			explosion = exp;
 		}
 
+		//handles the spawn and translation of the projectile
 		public void handleProjectile(Transform trans, Vector3 playerPos) {
 
 			//if projectile was destroyed set isShot = false
@@ -182,30 +155,34 @@ namespace enemySpace
 			setIsShot (true);
 		}
 
+		//moves projectile
 		public void moveProjectile()
 		{
 			projectileInstance.transform.position += shotDirection * 4f;
 		}
 
+		//returns if projectile is shot
 		public bool getIsShot()
 		{
 			return isShot;
 		}
 
+		//set if projectile is shot
 		public void setIsShot(bool fired)
 		{
 			isShot = fired;
 		}
 
+		//destroy projectile instance
 		public void destroyInstantiated() {
 			GameObject.Destroy (projectileInstance);
 		}
 
+		//get projectile object
 		public GameObject getEnemyProjectile()
 		{
 			return projectile;
 		}
-
 	}
 }
 

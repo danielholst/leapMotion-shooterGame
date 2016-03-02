@@ -36,7 +36,8 @@ public class tankMovement : MonoBehaviour {
 		float speed = 0.5f;
 
 		if (pos.z > 0.05) {
-			//movSound.Play ();
+			if( movSound.volume < 0.7)
+				movSound.volume = movSound.volume + 0.04f;
 			transform.position += transform.forward * speed;
 		} else if (pos.z < -0.05) {
 			//movSound.Play ();

@@ -3,6 +3,10 @@ using System.Collections;
 using enemySpace;
 using System.Collections.Generic;
 
+/**
+ * Handles the enemies and where and when they are spawned
+ **/
+
 public class enemyHandler : MonoBehaviour {
 
 	private GameObject player;
@@ -47,6 +51,7 @@ public class enemyHandler : MonoBehaviour {
 		}
 	}
 
+	//spawns a new enemy at random position 
  	void spawnNewEnemy() {
 		
 		GameObject enemyObject;
@@ -55,7 +60,7 @@ public class enemyHandler : MonoBehaviour {
 
 
 		enemyObject = Instantiate (enemyTank, pos, new Quaternion (0f, 0f, 0f, 1f)) as GameObject;
-		enemies.Add(new Enemy (enemyObject, 1, explosion));
+		enemies.Add(new Enemy (enemyObject, explosion));
 	}
 
 	//get random position on the game field without spawning close to player
@@ -71,6 +76,7 @@ public class enemyHandler : MonoBehaviour {
 		return pos;
 	}
 
+	//returns distance to player
 	float getDistanceToPlayer(Vector3 pos) {
 
 		return Mathf.Sqrt(Mathf.Abs(  Mathf.Pow(pos.x - player.transform.position.x,2)
