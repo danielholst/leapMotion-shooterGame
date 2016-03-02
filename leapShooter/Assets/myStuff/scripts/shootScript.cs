@@ -12,19 +12,24 @@ public class shootScript : MonoBehaviour {
 	private bool shooting;
 	private Vector3 shootDir;
 	private Vector3 shootPos;
+	private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
 
 		shooting = false;
 		controller = GameObject.FindGameObjectWithTag ("GameController").GetComponent<HandController> ();
+		audioSource = GetComponent<AudioSource> ();
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
 
 		if ((controller.GetFrame ().Hands [0].GrabStrength == 1f || Input.GetKeyUp ("space")) && (!shooting)) {
-			print ("shoot");
+
+			//play shoot sound
+			audioSource.Play();
 			shooting = true;
 			shootDir = transform.forward;
 			shootPos = new Vector3 (transform.position.x + transform.forward.x * 15f ,

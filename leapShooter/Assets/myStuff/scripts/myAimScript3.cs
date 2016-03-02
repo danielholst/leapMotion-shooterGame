@@ -2,6 +2,11 @@
 using System.Collections;
 using Leap;
 
+/**
+ * Script for lab
+ * Create a aim and be able to shoot with the hand using the leap motion
+ **/
+
 public class myAimScript3 : MonoBehaviour {
 
 	private HandController controller;
@@ -16,8 +21,6 @@ public class myAimScript3 : MonoBehaviour {
 	private Vector3 thumbPos;
 	private Vector3 prevThumbPos;
 	private float projectileTimer;
-
-	//private Vector3 palm
 
 	// Use this for initialization
 	void Start () {

@@ -184,7 +184,7 @@ namespace enemySpace
 
 		public void moveProjectile()
 		{
-			projectileInstance.transform.position += shotDirection * 2f;
+			projectileInstance.transform.position += shotDirection * 4f;
 		}
 
 		public bool getIsShot()
