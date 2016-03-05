@@ -147,9 +147,9 @@ namespace enemySpace
 			projectileInstance = GameObject.Instantiate(projectile, spawnPos, new Quaternion(0f,0f,0f,0f)) as GameObject;
 
 			//get direction from enemy towards player with small diff
-			shotDirection = new Vector3(    enemyTrans.forward.x + (UnityEngine.Random.Range (-2f, 2f) / 10f),
+			shotDirection = new Vector3(    enemyTrans.forward.x + (UnityEngine.Random.Range (-1f, 1f) / 10f),
 											0f,
-											enemyTrans.forward.z +(UnityEngine.Random.Range (-2f, 2f) / 10f));
+											enemyTrans.forward.z +(UnityEngine.Random.Range (-1.5f, 1.5f) / 10f));
 			
 
 			setIsShot (true);
