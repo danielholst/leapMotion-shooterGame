@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Timers;
 using enemySpace;
 using System.Collections.Generic;
 
@@ -15,31 +16,52 @@ public class enemyHandler : MonoBehaviour {
 	private GameObject exp;
 	private GameObject instantiatedTank;
 	private List<Enemy> enemies = new List<Enemy> (); 
-	private float timer;
+	private int timer;
 	private int enemiesSpawned;
+	//private Timer timer;
+
+
+	IEnumerator Start () {
+	
+		enemiesSpawned = 0;
+		player = GameObject.FindGameObjectWithTag ("Tank");
+		timer = 0;
+		yield return StartCoroutine(spawnUpdate());
+		yield return new WaitForSeconds (2f);
+	}
+
+	IEnumerator spawnUpdate() {
+
+		while (timer < 30) {
+			timer++;
+			print (timer);
+			enemiesSpawned++;
+			spawnNewEnemy ();
+
+			if (timer < 6) {
+				yield return new WaitForSeconds(7f);
+			}
+			else if (timer > 6 && timer < 12) {
+				yield return new WaitForSeconds(5f);
+			}
+			else if (timer > 12 && timer < 18) {
+				yield return new WaitForSeconds(4f);
+			}
+			else if (timer > 18 ) {
+				yield return new WaitForSeconds(3f);
+			}
+		}
+
+		Application.LoadLevel (0);
+	}
 
 	// Use this for initialization
-	void Start () {
-		
-		enemiesSpawned = 0;
-		timer = 0f;
-		player = GameObject.FindGameObjectWithTag ("Tank");
-	}
+
 	
 	// Update is called once per frame
 	void Update () {
 
-		timer += Time.deltaTime;
-
-		if ((timer > 1 && enemiesSpawned == 0) ||
-			(timer > 6 && enemiesSpawned == 1) ||
-			(timer > 10 && enemiesSpawned == 2) ||
-			(timer > 15 && enemiesSpawned == 3) ||
-			(timer > 25 && enemiesSpawned == 4 )) {
-			enemiesSpawned++;
-			spawnNewEnemy ();
-
-		}
+		//timer += Time.deltaTime;
 
 		for (int i = 0; i < enemies.Count; i++) {
 
@@ -48,6 +70,19 @@ public class enemyHandler : MonoBehaviour {
 				enemies [i].handleEnemy (player.transform.position);
 			} else if (enemies [i].getEnemyObject () == null && enemies [i].getProjectile () != null)
 				enemies [i].destroyProjectile ();
+		}
+	}
+
+	//handles the spawn of all new enemies
+	void spawnHandler() {
+		if ((timer > 1 && enemiesSpawned == 0) ||
+			(timer > 6 && enemiesSpawned == 1) ||
+			(timer > 10 && enemiesSpawned == 2) ||
+			(timer > 15 && enemiesSpawned == 3) ||
+			(timer > 25 && enemiesSpawned == 4 )) {
+			enemiesSpawned++;
+			spawnNewEnemy ();
+
 		}
 	}
 

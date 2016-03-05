@@ -31,22 +31,25 @@ public class tankMovement : MonoBehaviour {
 
 	}
 
+	//moves tank based on pos of the hand
 	void handleTankMovement(Vector3 pos) {
 
 		float speed = 0.5f;
 
 		if (pos.z > 0.05) {
-			if( movSound.volume < 0.7)
+			if( movSound.volume < 0.8)
 				movSound.volume = movSound.volume + 0.04f;
 			transform.position += transform.forward * speed;
 		} else if (pos.z < -0.05) {
-			//movSound.Play ();
-
+			if( movSound.volume < 0.7)
+				movSound.volume = movSound.volume + 0.04f;
 			transform.position -= transform.forward * speed;
 		} 
-			//movSound.Pause ();
+		else if( movSound.volume > 0.3)
+			movSound.volume = movSound.volume - 0.04f;
 	}
 
+	//handles the rotation of the tank based on the angle on the hand
 	void handleTankRotation(Vector3 rot) {
 
 		if (rot.x < -0.3f)

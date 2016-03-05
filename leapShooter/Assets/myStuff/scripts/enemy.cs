@@ -116,7 +116,7 @@ namespace enemySpace
 
 			// timer for projectile life time
 			timer += Time.deltaTime;
-			if (timer >= 2f) {
+			if (timer >= 3f) {
 				timer = 0f;
 				GameObject.Destroy (projectileInstance);
 				setIsShot (false);
@@ -127,7 +127,7 @@ namespace enemySpace
 				moveProjectile ();
 
 			//if not shot, shoot!
-			if (!getIsShot ())
+			if (!getIsShot () && timer >= 2.5f)
 				shoot (trans, playerPos);
 
 		}
@@ -147,9 +147,9 @@ namespace enemySpace
 			projectileInstance = GameObject.Instantiate(projectile, spawnPos, new Quaternion(0f,0f,0f,0f)) as GameObject;
 
 			//get direction from enemy towards player with small diff
-			shotDirection = new Vector3(    enemyTrans.forward.x + (UnityEngine.Random.Range (-1f, 1f) / 10f),
+			shotDirection = new Vector3(    enemyTrans.forward.x + (UnityEngine.Random.Range (-2f, 2f) / 10f),
 											0f,
-											enemyTrans.forward.z +(UnityEngine.Random.Range (-1f, 1f) / 10f));
+											enemyTrans.forward.z +(UnityEngine.Random.Range (-2f, 2f) / 10f));
 			
 
 			setIsShot (true);
