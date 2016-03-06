@@ -2,6 +2,10 @@
 using System.Collections;
 using Leap;
 
+/**
+ * Handles the movement and rotation ofthe tank using the leap motion
+ **/
+
 public class tankMovement : MonoBehaviour {
 
 	private GameObject camera;

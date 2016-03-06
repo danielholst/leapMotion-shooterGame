@@ -2,6 +2,10 @@
 using System.Collections;
 using enemySpace;
 
+/**
+ * Handles the collision for enemy projectiles
+**/
+
 public class enemyProjectileCollision : MonoBehaviour {
 
 	public GameObject explosion1;
@@ -9,6 +13,7 @@ public class enemyProjectileCollision : MonoBehaviour {
 	private GameObject player;
 	private GameObject exp;
 	private GameObject health;
+
 	// Use this for initialization
 	void Start () {
 

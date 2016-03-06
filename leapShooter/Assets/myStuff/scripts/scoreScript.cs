@@ -28,4 +28,8 @@ public class scoreScript : MonoBehaviour {
 	public int getPoints() {
 		return points;
 	}
+
+	public void setScore(int s) {
+		points = s;
+	}
 }

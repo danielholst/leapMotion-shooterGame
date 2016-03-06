@@ -13,11 +13,13 @@ public class enemyHandler : MonoBehaviour {
 	private GameObject player;
 	public GameObject enemyTank;
 	public GameObject explosion;
+	private GameObject scoreObject;
 	private GameObject exp;
 	private GameObject instantiatedTank;
 	private List<Enemy> enemies = new List<Enemy> (); 
 	private int timer;
 	private int enemiesSpawned;
+	private int score;
 	//private Timer timer;
 
 
@@ -26,6 +28,8 @@ public class enemyHandler : MonoBehaviour {
 		enemiesSpawned = 0;
 		player = GameObject.FindGameObjectWithTag ("Tank");
 		timer = 0;
+		score = 0;
+		scoreObject = GameObject.FindGameObjectWithTag ("Score");
 		yield return StartCoroutine(spawnUpdate());
 		yield return new WaitForSeconds (2f);
 	}
@@ -34,7 +38,6 @@ public class enemyHandler : MonoBehaviour {
 
 		while (timer < 30) {
 			timer++;
-			print (timer);
 			enemiesSpawned++;
 			spawnNewEnemy ();
 
@@ -61,7 +64,7 @@ public class enemyHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//timer += Time.deltaTime;
+		score = 0;
 
 		for (int i = 0; i < enemies.Count; i++) {
 
@@ -70,7 +73,14 @@ public class enemyHandler : MonoBehaviour {
 				enemies [i].handleEnemy (player.transform.position);
 			} else if (enemies [i].getEnemyObject () == null && enemies [i].getProjectile () != null)
 				enemies [i].destroyProjectile ();
+
+			if (enemies [i].getEnemyObject() == null)
+				score++;
 		}
+
+		//set score
+		scoreObject.GetComponent<scoreScript> ().setScore (score);
+
 	}
 
 	//handles the spawn of all new enemies

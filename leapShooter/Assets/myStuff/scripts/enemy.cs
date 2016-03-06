@@ -111,13 +111,20 @@ namespace enemySpace
 		public void handleProjectile(Transform trans, Vector3 playerPos) {
 
 			//if projectile was destroyed set isShot = false
-			if (projectileInstance == null && getIsShot() == true)
+			if (projectileInstance == null && getIsShot () == true)
 				setIsShot (false);
 
 			// timer for projectile life time
+			/*
 			timer += Time.deltaTime;
-			if (timer >= 3f) {
+			if (timer >= 4f) {
 				timer = 0f;
+				MonoBehaviour.print (timer);
+				GameObject.Destroy (projectileInstance);
+				setIsShot (false);
+			}
+*/
+			if ( projectileInstance != null && projectileOutOfMap ()) {
 				GameObject.Destroy (projectileInstance);
 				setIsShot (false);
 			}
@@ -127,7 +134,7 @@ namespace enemySpace
 				moveProjectile ();
 
 			//if not shot, shoot!
-			if (!getIsShot () && timer >= 2.5f)
+			if (!getIsShot () )
 				shoot (trans, playerPos);
 
 		}
@@ -182,6 +189,16 @@ namespace enemySpace
 		public GameObject getEnemyProjectile()
 		{
 			return projectile;
+		}
+
+		// returns true if projectile is outside the map
+		public bool projectileOutOfMap() {
+
+			if ( (Mathf.Abs(projectileInstance.transform.position.x) > 240f ) 
+				|| (Mathf.Abs(projectileInstance.transform.position.z) > 240f) )
+				return true;
+			else 
+				return false;
 		}
 	}
 }

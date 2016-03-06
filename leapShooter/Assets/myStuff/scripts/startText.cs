@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
+//Shows a text at the start of the game
+
 public class startText : MonoBehaviour {
 
 	private Text text;
