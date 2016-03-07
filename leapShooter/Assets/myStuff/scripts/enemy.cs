@@ -110,27 +110,22 @@ namespace enemySpace
 		//handles the spawn and translation of the projectile
 		public void handleProjectile(Transform trans, Vector3 playerPos) {
 
-			//if projectile was destroyed set isShot = false
-			if (projectileInstance == null && getIsShot () == true)
-				setIsShot (false);
-
-			// timer for projectile life time
-			/*
-			timer += Time.deltaTime;
-			if (timer >= 4f) {
-				timer = 0f;
-				MonoBehaviour.print (timer);
-				GameObject.Destroy (projectileInstance);
-				setIsShot (false);
+			//if projectile was destroyed wait 2s then set isShot = false 
+			if (projectileInstance == null && getIsShot () == true) {
+				if (timer > 2f) {
+					setIsShot (false);
+					timer = 0;
+				} else
+					timer += Time.deltaTime;
 			}
-*/
+				
 			if ( projectileInstance != null && projectileOutOfMap ()) {
 				GameObject.Destroy (projectileInstance);
 				setIsShot (false);
 			}
 
 			//move enemy projectiles
-			if (getIsShot ())
+			if (getIsShot () && projectileInstance != null)
 				moveProjectile ();
 
 			//if not shot, shoot!
@@ -194,8 +189,8 @@ namespace enemySpace
 		// returns true if projectile is outside the map
 		public bool projectileOutOfMap() {
 
-			if ( (Mathf.Abs(projectileInstance.transform.position.x) > 240f ) 
-				|| (Mathf.Abs(projectileInstance.transform.position.z) > 240f) )
+			if ( (Mathf.Abs(projectileInstance.transform.position.x) > 300f ) 
+				|| (Mathf.Abs(projectileInstance.transform.position.z) > 300f) )
 				return true;
 			else 
 				return false;
