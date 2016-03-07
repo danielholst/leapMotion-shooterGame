@@ -110,7 +110,7 @@ namespace enemySpace
 		//handles the spawn and translation of the projectile
 		public void handleProjectile(Transform trans, Vector3 playerPos) {
 
-			//if projectile was destroyed wait 2s then set isShot = false 
+			//if projectile was destroyed wait 2s then sset isShot = false 
 			if (projectileInstance == null && getIsShot () == true) {
 				if (timer > 2f) {
 					setIsShot (false);

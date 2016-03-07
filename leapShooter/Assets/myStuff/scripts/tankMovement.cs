@@ -27,7 +27,10 @@ public class tankMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		//get palm position from leap
 		palmPos = controller.GetFrame ().Hands [0].PalmPosition.ToUnityScaled(false);
+
+		//get palm rotation from leap
 		palmRot = controller.GetFrame ().Hands [0].PalmNormal.ToUnity (false);
 
 		handleTankMovement (palmPos);
@@ -42,15 +45,15 @@ public class tankMovement : MonoBehaviour {
 
 		if (pos.z > 0.05) {
 			if( movSound.volume < 0.8)
-				movSound.volume = movSound.volume + 0.04f;
+				movSound.volume = movSound.volume + 0.02f;
 			transform.position += transform.forward * speed;
 		} else if (pos.z < -0.05) {
 			if( movSound.volume < 0.7)
-				movSound.volume = movSound.volume + 0.04f;
+				movSound.volume = movSound.volume + 0.02f;
 			transform.position -= transform.forward * speed;
 		} 
 		else if( movSound.volume > 0.3)
-			movSound.volume = movSound.volume - 0.04f;
+			movSound.volume = movSound.volume - 0.03f;
 	}
 
 	//handles the rotation of the tank based on the angle on the hand

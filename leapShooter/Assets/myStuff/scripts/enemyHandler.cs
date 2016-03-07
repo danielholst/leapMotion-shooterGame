@@ -20,8 +20,6 @@ public class enemyHandler : MonoBehaviour {
 	private int timer;
 	private int enemiesSpawned;
 	private int score;
-	//private Timer timer;
-
 
 	IEnumerator Start () {
 	
@@ -57,9 +55,6 @@ public class enemyHandler : MonoBehaviour {
 
 		Application.LoadLevel (0);
 	}
-
-	// Use this for initialization
-
 	
 	// Update is called once per frame
 	void Update () {
@@ -80,7 +75,6 @@ public class enemyHandler : MonoBehaviour {
 
 		//set score
 		scoreObject.GetComponent<scoreScript> ().setScore (score);
-
 	}
 
 	//handles the spawn of all new enemies
